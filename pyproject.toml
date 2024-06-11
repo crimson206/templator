@@ -10,6 +10,7 @@ readme = "README.md"
 authors = [
   { name="Sisung Kim", email="sisung.kim1@gmail.com" },
 ]
+
 classifiers = [
     "Programming Language :: Python :: 3",
 
@@ -27,3 +28,6 @@ requires-python = ">=3.9"
 [project.urls]
 "Homepage" = "https://github.com/crimson206/templator"
 "Bug Tracker" = "https://github.com/crimson206/templator/issues"
+
+[tool.black]
+line-length = 120
