@@ -2,7 +2,7 @@ name: Release Workflow
 
 on:
   workflow_run:
-    workflows: ["Python application test"]
+    workflows: [Test]
     types:
       - completed
     branches:
