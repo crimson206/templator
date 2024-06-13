@@ -1,20 +1,22 @@
-from typing import Dict
+from typing import Dict, Any, List
+from .utils import convert_lines, add_prefix
 
 
 def format_insert(
-    # Parameters
-    # ----------
-    text: str,
     # Text to convert.
-    open: str = r"\[",
+    text: str,
     # Custom open bracket.
-    close: str = r"\]",
+    open: str = r"\[",
     # Custom close bracket.
-    **kwargs: Dict[str, str],
+    close: str = r"\]",
+    # Wrap values with str(value).
+    # Otherwise, values such as 1, None, True and non-string values will cause an error.
+    safe: bool = True,
     # Target name & new text pairs.
     # Pass it like
     # 'format_insert(..., kwarg1='value1', kwarg2='value2')' or
     # 'format_insert(..., **dictionary)'
+    **kwargs: Dict[str, str],
 ):
     """
     String format function with custom brackets.
@@ -34,6 +36,9 @@ def format_insert(
         'format_insert(..., **dictionary)'
     """
     for key, value in kwargs.items():
+        if safe:
+            value = _convert_to_str(value)
+
         pattern = open + key + close
         text = text.replace(pattern, value)
 
@@ -41,21 +46,22 @@ def format_insert(
 
 
 def format_indent(
-    # Parameters
-    # ----------
-    text: str,
     # Text to convert.
-    open: str = r"\{",
+    text: str,
     # Custom open bracket.
-    close: str = r"\}",
+    open: str = r"\{",
     # Custom close bracket.
-    **kwargs: Dict[str, str],
+    close: str = r"\}",
+    # Wrap values with str(value).
+    # Otherwise, values such as 1, None, True and non-string values will cause an error.
+    safe: bool = True,
     # Target name & new text pairs.
     # Pass it like
     # 'format_insert(..., kwarg1='value1', kwarg2='value2')' or
     # 'format_insert(..., **dictionary)'
+    **kwargs: Dict[str, str],
 ):
-    '''
+    """
     String format function with custom brackets.
     The line with the target pattern can't have other letter than the pattern.
 
@@ -72,32 +78,33 @@ def format_indent(
         Pass it like
         'format_insert(..., kwarg1='value1', kwarg2='value2')' or
         'format_insert(..., **dictionary)'
-    '''
+    """
     for key, value in kwargs.items():
+        if safe:
+            value = _convert_to_str(value)
         text = _format_indent_single(text, key, value, open, close)
 
     return text
 
 
-def add_prefix(
-    # Parameters
-    # ----------
-    text: str,
-    # Text to convert
-    prefix: str = " " * 4
-    # Prefix to be added to all the lines
+def format_insert_loop(
+    template: str,
+    kwargs_list: List[Dict[str, str]],
+    open: str = r"\[",
+    close: str = r"\]",
+    safe: bool = True,
 ):
-    '''
-    Parameters
-    ----------
-    text: str,
-        Text to convert
-    prefix: str = " " * 4
-        Prefix to be added to all the lines
-    '''
-    split = text.split("\n")
-    text = prefix + f"\n{prefix}".join(split)
-    return text
+    formatted_lines = []
+
+    for kwargs in kwargs_list:
+        formatted = format_insert(template, open, close, safe, **kwargs)
+        formatted_lines.append(formatted)
+    formatted = convert_lines(formatted_lines)
+    return formatted
+
+
+def _convert_to_str(value: Any):
+    return str(value)
 
 
 def _format_indent_single(
