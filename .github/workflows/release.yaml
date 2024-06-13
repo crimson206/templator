@@ -1,11 +1,9 @@
 name: Release Workflow
 
 on:
-  push:
-    branches:
-      - main
-    tags:
-      - 'v*'
+  pull_request:
+    branches: [ main, 'release/*']
+  workflow_dispatch:
 
 jobs:
   build-and-release:
