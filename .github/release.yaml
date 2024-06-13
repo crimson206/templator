@@ -3,9 +3,7 @@ name: Release Workflow
 on:
   push:
     branches:
-      - main
-    tags:
-      - 'v*'
+      - [main, 'release/*']
 
 jobs:
   build-and-release:
