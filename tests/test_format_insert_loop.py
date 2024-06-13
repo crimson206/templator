@@ -46,7 +46,7 @@ class TestSafeGuard(unittest.TestCase):
 
         self.assertEqual(formatted, expected_formatted)
 
-    def text_loop_list(self):
+    def test_loop_list(self):
         # Setting
         class InputProps(BaseModel):
             template: str
@@ -57,7 +57,7 @@ class TestSafeGuard(unittest.TestCase):
 
         fields = InputProps.model_fields.keys()
         kwargs_list = convert_list_to_kwargs_list(inputs=fields, shared_key="field")
-        template = r"""\[arg\]=\[arg\]"""
+        template = r"""\[field\]=\[field\]"""
         expected_formatted = """template=template
 kwargs_list=kwargs_list
 open=open
@@ -66,6 +66,7 @@ safe=safe"""
 
         # Action
         formatted = format_insert_loop(template=template, kwargs_list=kwargs_list)
+        print(formatted)
 
         # Assertion
         self.assertEqual(formatted, expected_formatted)
