@@ -26,17 +26,17 @@ class TestSafeGuard(unittest.TestCase):
 
         kwargs_list = [kwargs1, kwargs2]
 
-        template = r"""{ 
+        template = r"""{
     name : \[name\],
     age : \[age\],
     address : \[address\],
 },"""
-        expected_formatted = """{ 
+        expected_formatted = """{
     name : Jone,
     age : 13,
     address : London,
 },
-{ 
+{
     name : Amy,
     age : 25,
     address : Erlangen,
