@@ -2,8 +2,7 @@ name: Release Workflow
 
 on:
   pull_request:
-    branches:
-      - [main, 'release/*']
+    branches: [ main, 'release/*']
   workflow_dispatch:
 
 jobs:
