@@ -1,6 +1,10 @@
 name: Release Workflow
 
 on:
+  workflow_run:
+    workflows: ["Python application test"]
+    types:
+      - completed
   pull_request:
     branches:
       - [main, 'release/*']
@@ -8,7 +12,7 @@ on:
 
 jobs:
   build-and-release:
-    needs: test
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
