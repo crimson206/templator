@@ -9,15 +9,17 @@ on:
     branches:
       - main
       - release/*
-  
+  pull_request:
+    branches:
+      - [main, 'release/*']
+  workflow_dispatch:
+
 jobs:
   build-and-release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.workflow_run.head_branch }}
       - name: Set up Python
         uses: actions/setup-python@v3
         with:
