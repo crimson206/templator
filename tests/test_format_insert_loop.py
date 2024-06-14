@@ -2,74 +2,59 @@ import unittest
 from pydantic import BaseModel
 from typing import List, Dict
 
-from crimson.templator import (
-    format_insert_loop,
-)
+from crimson.templator import format_insert_loop_many, format_insert_loop_list
 from crimson.templator.utils import (
-    convert_list_to_kwargs_list,
+    convert_list_to_dicts_list,
 )
 
 
-class TestSafeGuard(unittest.TestCase):
-    def test_loop_kwargs_list(self):
-        kwargs1 = {
-            "name": "Jone",
-            "age": "13",
-            "address": "London",
-        }
+class TestFormatInsertLoop(unittest.TestCase):
 
-        kwargs2 = {
-            "name": "Amy",
-            "age": "25",
-            "address": "Erlangen",
-        }
+    kwargs1 = {
+        "name": "Amy",
+        "age": "25",
+        "address": "Erlangen",
+    }
 
-        kwargs_list = [kwargs1, kwargs2]
+    kwargs2 = {
+        "name": "Jone",
+        "age": "13",
+        "address": "London",
+    }
 
-        template = r"""{
+    kwargs_list = [kwargs1, kwargs2]
+
+    kwargs_many = {"name": ["Amy", "Jone"], "age": ["25", "13"], "address": ["Erlangen", "London"]}
+
+    template = r"""{
     name : \[name\],
     age : \[age\],
     address : \[address\],
 },"""
-        expected_formatted = """{
-    name : Jone,
-    age : 13,
-    address : London,
-},
-{
+    expected_formatted = """{
     name : Amy,
     age : 25,
     address : Erlangen,
+},
+{
+    name : Jone,
+    age : 13,
+    address : London,
 },"""
 
-        formatted = format_insert_loop(template=template, kwargs_list=kwargs_list)
+    def test_loop_kwargs_list(self):
 
-        self.assertEqual(formatted, expected_formatted)
+        formatted = format_insert_loop_many(template=self.template, kwargs_many=self.kwargs_many)
 
-    def test_loop_list(self):
-        # Setting
-        class InputProps(BaseModel):
-            template: str
-            kwargs_list: List[Dict[str, str]]
-            open: str = r"\["
-            close: str = r"\]"
-            safe: bool = True
+        self.assertEqual(formatted, self.expected_formatted)
 
-        fields = InputProps.model_fields.keys()
-        kwargs_list = convert_list_to_kwargs_list(inputs=fields, shared_key="field")
-        template = r"""\[field\]=\[field\]"""
-        expected_formatted = """template=template
-kwargs_list=kwargs_list
-open=open
-close=close
-safe=safe"""
-
+    def test_format_loop_list(self):
         # Action
-        formatted = format_insert_loop(template=template, kwargs_list=kwargs_list)
+        formatted = format_insert_loop_list(template=self.template, kwargs_list=self.kwargs_list)
         print(formatted)
 
         # Assertion
-        self.assertEqual(formatted, expected_formatted)
+        self.assertEqual(formatted, self.expected_formatted)
 
 
 if __name__ == "__main__":
