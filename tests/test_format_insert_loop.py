@@ -27,9 +27,9 @@ class TestFormatInsertLoop(unittest.TestCase):
     kwargs_many = {"name": ["Amy", "Jone"], "age": ["25", "13"], "address": ["Erlangen", "London"]}
 
     template = r"""{
-    name : \[name\],
-    age : \[age\],
-    address : \[address\],
+    name : \\[name\\],
+    age : \\[age\\],
+    address : \\[address\\],
 },"""
     expected_formatted = """{
     name : Amy,

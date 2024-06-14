@@ -90,8 +90,8 @@ def format_indent(
 def format_insert_loop(
     template: str,
     kwargs: Union[Dict[str, List[str]], Dict[str, List[str]]],
-    open: str = r"\[",
-    close: str = r"\]",
+    open: str = r"\\[",
+    close: str = r"\\]",
     safe: bool = True,
 ):
     parsers = [format_insert_loop_many, format_insert_loop_list]
@@ -112,8 +112,8 @@ def format_insert_loop(
 def format_insert_loop_many(
     template: str,
     kwargs_many: Dict[str, List[str]],
-    open: str = r"\[",
-    close: str = r"\]",
+    open: str = r"\\[",
+    close: str = r"\\]",
     safe: bool = True,
 ):
     kwargs_list = convert_dict_of_lists_to_list_of_dicts(kwargs_many)
@@ -130,8 +130,8 @@ def format_insert_loop_many(
 def format_insert_loop_list(
     template: str,
     kwargs_list: List[Dict[str, str]],
-    open: str = r"\[",
-    close: str = r"\]",
+    open: str = r"\\[",
+    close: str = r"\\]",
     safe: bool = True,
 ):
     formatted_lines = []
@@ -141,8 +141,6 @@ def format_insert_loop_list(
         formatted_lines.append(formatted)
     formatted = convert_lines(formatted_lines)
     return formatted
-
-
 
 
 def _convert_to_str(value: Any):
