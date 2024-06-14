@@ -94,7 +94,7 @@ def format_insert_loop(
     close: str = r"\]",
     safe: bool = True,
 ):
-    parsers = [format_insert_loop_many, format_insert_loop_legacy]
+    parsers = [format_insert_loop_many, format_insert_loop_list]
     errors = []
 
     for parser in parsers:
@@ -118,7 +118,7 @@ def format_insert_loop_many(
 ):
     kwargs_list = convert_dict_of_lists_to_list_of_dicts(kwargs_many)
 
-    return format_insert_loop_legacy(
+    return format_insert_loop_list(
         template,
         kwargs_list,
         open,
@@ -127,7 +127,7 @@ def format_insert_loop_many(
     )
 
 
-def format_insert_loop_legacy(
+def format_insert_loop_list(
     template: str,
     kwargs_list: List[Dict[str, str]],
     open: str = r"\[",
