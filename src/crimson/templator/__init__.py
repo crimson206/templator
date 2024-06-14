@@ -1,5 +1,5 @@
 from typing import Dict, Any, List, Union
-from .utils import convert_lines, add_prefix, convert_dict_of_lists_to_list_of_dicts
+from .utils import convert_lines, add_prefix, convert_dict_of_lists_to_list_of_dicts, cut_end_lines
 
 
 def format_insert(
@@ -93,13 +93,14 @@ def format_insert_loop(
     open: str = r"\\[",
     close: str = r"\\]",
     safe: bool = True,
+    cut_ends: bool = True,
 ):
     parsers = [format_insert_loop_many, format_insert_loop_list]
     errors = []
 
     for parser in parsers:
         try:
-            return parser(template, kwargs, open, close, safe)
+            return parser(template, kwargs, open, close, safe, cut_ends)
         except Exception as e:
             errors.append(f"{parser.__name__} error: {e}")
             continue
@@ -115,6 +116,7 @@ def format_insert_loop_many(
     open: str = r"\\[",
     close: str = r"\\]",
     safe: bool = True,
+    cut_ends: bool = True,
 ):
     kwargs_list = convert_dict_of_lists_to_list_of_dicts(kwargs_many)
 
@@ -124,6 +126,7 @@ def format_insert_loop_many(
         open,
         close,
         safe,
+        cut_ends
     )
 
 
@@ -133,13 +136,18 @@ def format_insert_loop_list(
     open: str = r"\\[",
     close: str = r"\\]",
     safe: bool = True,
+    cut_ends: bool = True,
 ):
     formatted_lines = []
 
     for kwargs in kwargs_list:
         formatted = format_insert(template, open, close, safe, **kwargs)
         formatted_lines.append(formatted)
-    formatted = convert_lines(formatted_lines)
+    formatted = "".join(formatted_lines)
+
+    if cut_ends:
+        formatted = cut_end_lines(formatted)
+
     return formatted
 
 

@@ -54,6 +54,11 @@ def convert_list_of_dicts_to_dict_of_lists(
     return dict_of_lists
 
 
+def cut_end_lines(text: str) -> str:
+    split = text.splitlines()[1:-1]
+    return convert_lines(split)
+
+
 def _is_dict_of_lists_valid(
     kwargs_many: Dict[str, List[str]],
 ) -> bool:
