@@ -1,5 +1,5 @@
-from typing import Dict, Any, List
-from .utils import convert_lines, add_prefix
+from typing import Dict, Any, List, Union
+from .utils import convert_lines, add_prefix, convert_dict_of_lists_to_list_of_dicts
 
 
 def format_insert(
@@ -89,6 +89,46 @@ def format_indent(
 
 def format_insert_loop(
     template: str,
+    kwargs: Union[Dict[str, List[str]], Dict[str, List[str]]],
+    open: str = r"\[",
+    close: str = r"\]",
+    safe: bool = True,
+):
+    parsers = [format_insert_loop_many, format_insert_loop_legacy]
+    errors = []
+
+    for parser in parsers:
+        try:
+            return parser(template, kwargs, open, close, safe)
+        except Exception as e:
+            errors.append(f"{parser.__name__} error: {e}")
+            continue
+
+    raise ValueError(
+        "Both format_insert_loop_many and format_insert_loop_legacy failed with errors: " + "; ".join(errors)
+    )
+
+
+def format_insert_loop_many(
+    template: str,
+    kwargs_many: Dict[str, List[str]],
+    open: str = r"\[",
+    close: str = r"\]",
+    safe: bool = True,
+):
+    kwargs_list = convert_dict_of_lists_to_list_of_dicts(kwargs_many)
+
+    return format_insert_loop_legacy(
+        template,
+        kwargs_list,
+        open,
+        close,
+        safe,
+    )
+
+
+def format_insert_loop_legacy(
+    template: str,
     kwargs_list: List[Dict[str, str]],
     open: str = r"\[",
     close: str = r"\]",
@@ -101,6 +141,8 @@ def format_insert_loop(
         formatted_lines.append(formatted)
     formatted = convert_lines(formatted_lines)
     return formatted
+
+
 
 
 def _convert_to_str(value: Any):

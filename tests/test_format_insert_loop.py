@@ -3,14 +3,14 @@ from pydantic import BaseModel
 from typing import List, Dict
 
 from crimson.templator import (
-    format_insert_loop,
+    format_insert_loop_many,
 )
 from crimson.templator.utils import (
-    convert_list_to_kwargs_list,
+    convert_list_to_dicts_list,
 )
 
 
-class TestSafeGuard(unittest.TestCase):
+class TestFormatInsertLoop(unittest.TestCase):
     def test_loop_kwargs_list(self):
         kwargs1 = {
             "name": "Jone",
@@ -42,7 +42,7 @@ class TestSafeGuard(unittest.TestCase):
     address : Erlangen,
 },"""
 
-        formatted = format_insert_loop(template=template, kwargs_list=kwargs_list)
+        formatted = format_insert_loop_many(template=template, kwargs_many=kwargs_list)
 
         self.assertEqual(formatted, expected_formatted)
 
@@ -55,8 +55,8 @@ class TestSafeGuard(unittest.TestCase):
             close: str = r"\]"
             safe: bool = True
 
-        fields = InputProps.model_fields.keys()
-        kwargs_list = convert_list_to_kwargs_list(inputs=fields, shared_key="field")
+        fields: List[Dict[str, str]] = InputProps.model_fields.keys()
+        kwargs_list = convert_list_to_dicts_list(inputs=fields, shared_key="field")
         template = r"""\[field\]=\[field\]"""
         expected_formatted = """template=template
 kwargs_list=kwargs_list
@@ -65,7 +65,7 @@ close=close
 safe=safe"""
 
         # Action
-        formatted = format_insert_loop(template=template, kwargs_list=kwargs_list)
+        formatted = format_insert_loop_many(template=template, kwargs_many=kwargs_list)
         print(formatted)
 
         # Assertion
