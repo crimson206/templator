@@ -1,3 +1,4 @@
 pydantic
 coverage
-parameterizedpytest
+pytest
+parameterized
