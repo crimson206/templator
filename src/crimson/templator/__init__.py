@@ -1,5 +1,8 @@
 from typing import Dict, Any, List, Union
-from .utils import convert_lines, add_prefix, convert_dict_of_lists_to_list_of_dicts, cut_end_lines
+from .utils import add_prefix, convert_dict_of_lists_to_list_of_dicts, cut_end_lines
+import warnings
+
+warnings.filterwarnings("ignore", category=DeprecationWarning, message="invalid escape sequence.*")
 
 
 def format_insert(
