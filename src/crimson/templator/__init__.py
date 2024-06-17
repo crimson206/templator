@@ -93,7 +93,7 @@ def format_insert_loop(
     open: str = r"\\[",
     close: str = r"\\]",
     safe: bool = True,
-    cut_ends: bool = True,
+    cut_ends: bool = False,
 ):
     parsers = [format_insert_loop_many, format_insert_loop_list]
     errors = []
@@ -116,7 +116,7 @@ def format_insert_loop_many(
     open: str = r"\\[",
     close: str = r"\\]",
     safe: bool = True,
-    cut_ends: bool = True,
+    cut_ends: bool = False,
 ):
     kwargs_list = convert_dict_of_lists_to_list_of_dicts(kwargs_many)
 
@@ -136,7 +136,7 @@ def format_insert_loop_list(
     open: str = r"\\[",
     close: str = r"\\]",
     safe: bool = True,
-    cut_ends: bool = True,
+    cut_ends: bool = False,
 ):
     formatted_lines = []
 

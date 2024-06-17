@@ -1,5 +1,5 @@
-from typing import List, Any, Iterable, Dict
-
+from typing import List, Any, Iterable, Dict, Tuple
+from ._generate_combination import _GenerateCombinations
 
 def convert_lines(lines: List[str]) -> str:
     return "\n".join(lines)
@@ -52,6 +52,26 @@ def convert_list_of_dicts_to_dict_of_lists(
             dict_of_lists[key].append(d[key])
 
     return dict_of_lists
+
+
+def generate_combinations_list_tuple(
+    data: Dict[str, List[str]]
+) -> List[List[Tuple[Any, Any]]]:
+    all_combination = _GenerateCombinations.generate_combinations_list_tuple(data)
+    return all_combination
+
+
+def generate_combinations_dict_list(
+    data: Dict[str, List[str]],
+    key_name: str,
+    value_name: str
+) -> List[Dict[str, str]]:
+    all_combination = _GenerateCombinations.generate_combinations_dict_list(
+        data,
+        key_name,
+        value_name
+    )
+    return all_combination
 
 
 def cut_end_lines(text: str) -> str:
