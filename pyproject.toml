@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "crimson-templator"
-version = "0.1.6"
+version = "0.1.7"
 description = "Template Tools"
 readme = "README.md"
 authors = [
@@ -28,6 +28,3 @@ requires-python = ">=3.9"
 [project.urls]
 "Homepage" = "https://github.com/crimson206/templator"
 "Bug Tracker" = "https://github.com/crimson206/templator/issues"
-
-[tool.black]
-line-length = 120
