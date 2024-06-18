@@ -1,6 +1,5 @@
 from typing import Dict, Any, List, Union
-from ._utils import add_prefix, convert_dict_of_lists_to_list_of_dicts, cut_end_lines
-from .__init__implementation import _RemoveLines
+from .utils import convert_lines, add_prefix, convert_dict_of_lists_to_list_of_dicts, cut_end_lines
 
 
 def format_insert(
