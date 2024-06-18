@@ -1,8 +1,6 @@
 from typing import Dict, Any, List, Union
 from .utils import add_prefix, convert_dict_of_lists_to_list_of_dicts, cut_end_lines
-import warnings
-
-warnings.filterwarnings("ignore", category=DeprecationWarning, message="invalid escape sequence.*")
+from .__init__implementation import _RemoveLines
 
 
 def format_insert(
@@ -98,7 +96,7 @@ def format_insert_loop(
     safe: bool = True,
     cut_ends: bool = False,
 ):
-    parsers = [format_insert_loop_many, format_insert_loop_list]
+    parsers = [_format_insert_loop_many, _format_insert_loop_list]
     errors = []
 
     for parser in parsers:
@@ -113,7 +111,24 @@ def format_insert_loop(
     )
 
 
-def format_insert_loop_many(
+def remove_lines(template: str, open: str = r"\(", close: str = r"\)") -> str:
+    """Remove Lines based on the remove_keywords in brackets .
+
+    It removes lines below r"\(remove_above:1\)" or above r"\(remove_above:1\)".
+    The keywords blocks will be removed as well.
+
+    Args:
+        template (str): Template including keywords, such as r"\(remove_above:1\)" or r"\(remove_below:1\)"
+        open (str, optional): open bracket. Defaults to r"\(".
+        close (str, optional): close bracket. Defaults to r"\)".
+
+    Returns:
+        str: _description_
+    """
+    return _RemoveLines.remove_lines(template, open, close)
+
+
+def _format_insert_loop_many(
     template: str,
     kwargs_many: Dict[str, List[str]],
     open: str = r"\\[",
@@ -123,17 +138,10 @@ def format_insert_loop_many(
 ):
     kwargs_list = convert_dict_of_lists_to_list_of_dicts(kwargs_many)
 
-    return format_insert_loop_list(
-        template,
-        kwargs_list,
-        open,
-        close,
-        safe,
-        cut_ends
-    )
+    return _format_insert_loop_list(template, kwargs_list, open, close, safe, cut_ends)
 
 
-def format_insert_loop_list(
+def _format_insert_loop_list(
     template: str,
     kwargs_list: List[Dict[str, str]],
     open: str = r"\\[",
