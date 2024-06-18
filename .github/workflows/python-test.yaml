@@ -60,4 +60,4 @@ jobs:
           echo "Coverage report: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" > coverage_report.txt
           gh pr comment ${{ github.event.pull_request.number }} --body-file coverage_report.txt
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.COVERAGE_TOKEN }}
