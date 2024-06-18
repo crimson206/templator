@@ -35,29 +35,3 @@ jobs:
     - name: Run tests and generate coverage report
       run: |
         pytest --cov=src/crimson/templator --cov-report=html
-    - name: Upload coverage report
-      uses: actions/upload-artifact@v3
-      with:
-        name: coverage-report
-        path: htmlcov
-
-  notify-coverage:
-    runs-on: ubuntu-latest
-    needs: test-and-coverage
-    if: success() || failure()
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Download coverage report
-        uses: actions/download-artifact@v3
-        with:
-          name: coverage-report
-          path: htmlcov
-
-      - name: Post coverage report link
-        run: |
-          echo "Coverage report: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" > coverage_report.txt
-          gh pr comment ${{ github.event.pull_request.number }} --body-file coverage_report.txt
-        env:
-          GITHUB_TOKEN: ${{ secrets.COVERAGE_TOKEN }}
