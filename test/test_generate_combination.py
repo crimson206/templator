@@ -1,4 +1,4 @@
-from crimson.templator._utils import generate_combinations_dict_list, generate_combinations_list_tuple
+from crimson.templator.utils import generate_combinations_dict_list, generate_combinations_list_tuple
 
 
 def test_generate_combination_dict_list():
