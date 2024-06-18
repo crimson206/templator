@@ -15,8 +15,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-      with:
-        ref: ${{ github.event.workflow_run.head_branch }}
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v3
       with:
@@ -48,6 +46,9 @@ jobs:
     needs: test-and-coverage
     if: success() || failure()
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Download coverage report
         uses: actions/download-artifact@v3
         with:
