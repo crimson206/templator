@@ -1,6 +1,8 @@
 from typing import Dict, Any, List, Union
 from .utils import add_prefix, convert_dict_of_lists_to_list_of_dicts, cut_end_lines
 from .__init__implementation import _RemoveLines
+from pkgutil import extend_path
+__path__ = extend_path(__path__, __name__)
 
 
 def format_insert(
