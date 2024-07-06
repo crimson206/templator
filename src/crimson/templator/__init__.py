@@ -1,5 +1,5 @@
 from typing import Dict, Any, List, Union, Tuple, Generic, TypeVar
-from ._utils import (
+from .utils import (
     add_prefix,
     convert_dict_of_lists_to_list_of_dicts
 )
