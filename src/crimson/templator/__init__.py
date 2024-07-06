@@ -1,6 +1,6 @@
 from typing import Dict, Any, List, Union, Tuple, Generic, TypeVar
 from ._utils import (
-    add_prefix as _add_prefix, 
+    add_prefix as _add_prefix,
     convert_dict_of_lists_to_list_of_dicts as _convert_dict_of_lists_to_list_of_dicts
 )
 from crimson.intelli_type import IntelliType
