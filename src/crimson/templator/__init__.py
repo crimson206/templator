@@ -1,7 +1,7 @@
 from typing import Dict, Any, List, Union, Tuple, Generic, TypeVar
 from ._utils import (
-    add_prefix as _add_prefix,
-    convert_dict_of_lists_to_list_of_dicts as _convert_dict_of_lists_to_list_of_dicts,
+    add_prefix,
+    convert_dict_of_lists_to_list_of_dicts,
 )
 from crimson.intelli_type import IntelliType
 from .__RemoveLines import _RemoveLines
@@ -43,7 +43,7 @@ class Safe_(IntelliType, bool_, Generic[T]):
         - value = str(value)
     """
 
-    _annotation = bool
+    annotation = bool
 
 
 class Open_(IntelliType, str, Generic[T]):
@@ -81,7 +81,7 @@ class Kwargs_(IntelliType, Dict[str, Union_[str, Any]], Generic[T]):
         ```
     """
 
-    _annotation = Dict[str, Union[str, Any]]
+    annotation = Dict[str, Union[str, Any]]
 
 
 class Kwargs_List_(
@@ -110,7 +110,7 @@ class Kwargs_List_(
         ```
     """
 
-    _annotation = Union[List[Kwargs_], Dict[str, List[Union[str, Any]]]]
+    annotation = Union[List[Kwargs_], Dict[str, List[Union[str, Any]]]]
 
 
 class CutEnds_(IntelliType, Tuple[int, int], Generic[T]):
@@ -261,7 +261,7 @@ def _format_insert_loop_many(
     safe: bool = True,
     cut_ends: Tuple[int, int] = (0, 0),
 ):
-    kwargs_list = _convert_dict_of_lists_to_list_of_dicts(kwargs_many)
+    kwargs_list = convert_dict_of_lists_to_list_of_dicts(kwargs_many)
 
     return _format_insert_loop_list(template, kwargs_list, open, close, safe, cut_ends)
 
@@ -307,7 +307,7 @@ def _format_indent_single(
         if line.find(pattern) != -1:
             _check_indent_line(line, pattern)
             indent = line[: line.find(pattern)]
-            new_lines.append(_add_prefix(value, indent))
+            new_lines.append(add_prefix(value, indent))
         else:
             new_lines.append(line)
 
