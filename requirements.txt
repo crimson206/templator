@@ -1,5 +1,2 @@
 pydantic
-coverage
-pytest
-parameterized
-pytest-cov
+crimson-intelli-type
