@@ -1,12 +1,14 @@
 from typing import Dict, Any, List, Union, Tuple, Generic, TypeVar
 from ._utils import (
-    add_prefix as _add_prefix, 
-    convert_dict_of_lists_to_list_of_dicts as _convert_dict_of_lists_to_list_of_dicts
+    add_prefix as _add_prefix,
+    convert_dict_of_lists_to_list_of_dicts as _convert_dict_of_lists_to_list_of_dicts,
 )
 from crimson.intelli_type import IntelliType
 from .__RemoveLines import _RemoveLines
 
 T = TypeVar("T")
+
+# region Types
 
 
 class Template_(IntelliType, str, Generic[T]):
@@ -120,6 +122,11 @@ class CutEnds_(IntelliType, Tuple[int, int], Generic[T]):
 
     Even if `cut_ends[1]` is 0, `None` is used instead of `-cut_ends[1]`.
     """
+
+
+# endregion
+
+# region Public Functions
 
 
 def format_insert(
@@ -241,6 +248,11 @@ def remove_lines(template: str, open: str = r"\(", close: str = r"\)") -> str:
     return _RemoveLines.remove_lines(template, open, close)
 
 
+# endregion
+
+# region Private Functions
+
+
 def _format_insert_loop_many(
     template: str,
     kwargs_many: Dict[str, List[str]],
@@ -309,3 +321,6 @@ def _check_indent_line(text: str, pattern: str):
         raise ValueError(f"The line contains characters other than '{pattern}'")
 
     return True
+
+
+# endregion
