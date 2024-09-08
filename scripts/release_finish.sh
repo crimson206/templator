@@ -1,16 +1,33 @@
 #!/bin/bash
 
-# release 브랜치를 받아옵니다.
+# release 브랜치 이름을 인자로 받습니다.
 release_branch=$1
 
-# release 브랜치를 finish 합니다.
-git flow release finish $release_branch
+if [ -z "$release_branch" ]; then
+    echo "Usage: $0 <release_branch_name>"
+    exit 1
+fi
 
-# develop 브랜치로 체크아웃합니다.
+# release 브랜치를 finish 합니다.
+git flow release finish -m "Finish release $release_branch" "$release_branch" <<EOF
+Merge branch 'release/$release_branch'
+
+This merge is necessary to complete the release process for version $release_branch.
+EOF
+
+# develop 브랜치로 전환합니다.
 git checkout develop
 
-# 병합 직전 커밋에서 development 폴더를 복원합니다.
-git checkout HEAD~1 -- development
+# develop 브랜치를 원격 저장소에 push 합니다.
+git push origin develop
 
-# 복원된 폴더를 커밋합니다.
-git commit -am "Restore development folder after release finish"
+# main 브랜치로 전환합니다.
+git checkout main
+
+# main 브랜치를 원격 저장소에 push 합니다.
+git push origin main
+
+# 새로 생성된 태그를 원격 저장소에 push 합니다.
+git push origin "release/$release_branch"
+
+echo "Release $release_branch has been finished and pushed to remote repository."
