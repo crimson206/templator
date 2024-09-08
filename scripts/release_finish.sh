@@ -28,6 +28,6 @@ git checkout main
 git push origin main
 
 # 새로 생성된 태그를 원격 저장소에 push 합니다.
-git push origin "release/$release_branch"
+git push origin "$release_branch"
 
 echo "Release $release_branch has been finished and pushed to remote repository."
