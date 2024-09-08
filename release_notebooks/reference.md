@@ -1,3 +1,3 @@
 ``` yaml
-github-folder-root: https://github.com/crimson206/templator/tree/main/
+github-folder-root: https://github.com/crimson206/templator/blob/{branch_name}/
 ```
