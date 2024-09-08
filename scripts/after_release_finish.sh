@@ -2,11 +2,6 @@
 
 release_tag=$1
 
-if [ -z "$release_tag" ]; then
-    echo "Usage: $0 <release_branch_name>"
-    exit 1
-fi
-
 # develop 브랜치로 전환합니다.
 git checkout develop
 
