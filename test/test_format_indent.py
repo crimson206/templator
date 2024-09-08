@@ -28,11 +28,17 @@ even 4!\
     assert expected_formatted == formatted
 
 
-def test_one_line_only_one_indent():
-    kwargs = {"arg1": "I am just a line."}
+def test_allow_to_add_additional_text_after_pattern():
+    kwargs = {"arg1": "line1\nline2"}
     template = r"""
     \{arg1\} Additional text with indent will cause an error.
 """
 
-    with pytest.raises(Exception):
-        format_indent(template, **kwargs, safe=True)
+    formatted = format_indent(template, **kwargs, safe=True)
+
+    expected = """
+    line1
+    line2 Additional text with indent will cause an error.
+"""
+
+    assert formatted == expected

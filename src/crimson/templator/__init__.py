@@ -305,13 +305,21 @@ def _format_indent_single(
     new_lines = []
     for line in text.split("\n"):
         if line.find(pattern) != -1:
-            _check_indent_line(line, pattern)
+            remaining_text = get_remaining_text(line, pattern)
+            # _check_indent_line(line, pattern)
             indent = line[: line.find(pattern)]
-            new_lines.append(add_prefix(value, indent))
+            formatted_text = add_prefix(value, indent) + remaining_text
+            new_lines.append(formatted_text)
         else:
             new_lines.append(line)
 
     return "\n".join(new_lines)
+
+
+def get_remaining_text(line: str, pattern: str):
+    line = line.lstrip()
+    remaining_text = line.replace(pattern, "")
+    return remaining_text
 
 
 def _check_indent_line(text: str, pattern: str):
